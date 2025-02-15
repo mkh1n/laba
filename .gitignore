@@ -1,0 +1,45 @@
+# Ignore IntelliJ IDEA files
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Ignore Spring Boot build files
+/back/target/
+/back/**/*.log
+/back/**/*.class
+/back/**/*.jar
+/back/**/*.war
+
+# Ignore Node.js and Next.js build files
+/front/node_modules/
+/front/.next/
+/front/out/
+
+# Ignore environment variables and secrets
+/back/.env
+/front/.env
+/front/.env.local
+/front/.env.production
+/front/.env.development
+
+# Ignore log files
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Ignore VSCode files
+.vscode/
+
+# Ignore Gradle files (if using Gradle)
+.gradle/
+build/
+
+# Ignore Maven files (if using Maven)
+/back/target/
