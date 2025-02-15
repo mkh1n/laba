@@ -14,15 +14,43 @@ out/
 
 # Ignore Node.js and Next.js build files
 /front/node_modules/
+/front/.pnp
+/front/.pnp.*
+/front/.yarn/*
+!/front/.yarn/patches
+!/front/.yarn/plugins
+!/front/.yarn/releases
+!/front/.yarn/versions
+
+# Ignore testing files
+/front/coverage/
+
+# Ignore Next.js build files
 /front/.next/
 /front/out/
 
-# Ignore environment variables and secrets
-/back/.env
-/front/.env
-/front/.env.local
-/front/.env.production
-/front/.env.development
+# Ignore production build files
+/front/build/
+
+# Ignore misc files
+/front/.DS_Store
+/front/*.pem
+
+# Ignore debug logs
+/front/npm-debug.log*
+/front/yarn-debug.log*
+/front/yarn-error.log*
+/front/.pnpm-debug.log*
+
+# Ignore environment files
+/front/.env*
+
+# Ignore Vercel files
+/front/.vercel
+
+# Ignore TypeScript build info files
+/front/*.tsbuildinfo
+/front/next-env.d.ts
 
 # Ignore log files
 *.log
@@ -43,3 +71,18 @@ build/
 
 # Ignore Maven files (if using Maven)
 /back/target/
+/back/!.mvn/wrapper/maven-wrapper.jar
+/back/!.mvn/wrapper/maven-wrapper.properties
+/back/!**/target/*
+
+# Ignore Docker files
+/back/Dockerfile
+/front/Dockerfile
+
+# Ignore other common files
+*.iml
+*.ipr
+*.iws
+.idea/
+*.swp
+*.swo
