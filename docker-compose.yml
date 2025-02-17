@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  back:
+    build: ./back
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/demo_lab
+      SPRING_DATASOURCE_USERNAME: demo_user
+      SPRING_DATASOURCE_PASSWORD: demo_pass
+    depends_on:
+      - db
+
+  front:
+    build: ./front
+    ports:
+      - "3000:3000"
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: demo_user
+      POSTGRES_PASSWORD: demo_pass
+      POSTGRES_DB: demo_lab
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"

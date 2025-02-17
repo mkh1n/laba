@@ -1,25 +1,39 @@
 package com.example.demo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Data
-@Getter
 @Setter
-@Table(name = "users") // Измените имя таблицы
+@Getter
+@Table(name = "users")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String password;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Point> points = new ArrayList<>();
+
+    // Constructors, getters, and setters
+
+    public void addPoint(Point point) {
+        points.add(point);
+        point.setUser(this);
+    }
+
+    public void removePoint(Point point) {
+        points.remove(point);
+        point.setUser(null);
+    }
 }

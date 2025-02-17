@@ -1,44 +1,58 @@
 package com.example.demo.controllers;
 
-import com.example.demo.JWT.JwtUtil;
+import com.example.demo.utils.JwtUtil;
 import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.models.User;
 import com.example.demo.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
+
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Lazy
     @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User userData) {
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-            User registeredUser = userService.registerUser(userData);
-            return ResponseEntity.ok(new UserResponseDTO(registeredUser.getId(), registeredUser.getUsername()));
+            User registeredUser = userService.registerUser(user);
+            String token = jwtUtil.generateToken(registeredUser.getUsername());
+
+            var response = new UserResponseDTO();
+            response.setToken(token);
+            response.setId(registeredUser.getId());
+            response.setUsername(registeredUser.getUsername());
+
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User userData) {
-        User loggedInUser = userService.loginUser(userData.getUsername(), userData.getPassword());
-        if (loggedInUser != null) {
-            String token = jwtUtil.generateToken(loggedInUser.getUsername());
-            return ResponseEntity.ok(token);
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        User authenticatedUser = userService.loginUser(user.getUsername(), user.getPassword());
+        if (authenticatedUser != null) {
+            String token = jwtUtil.generateToken(authenticatedUser.getUsername());
+            log.info(String.valueOf(authenticatedUser.getId()));
+
+            var response = new UserResponseDTO();
+            response.setToken(token);
+            response.setId(authenticatedUser.getId());
+            response.setUsername(authenticatedUser.getUsername());
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(401).body("Invalid login or password");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 }

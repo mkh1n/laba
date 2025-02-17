@@ -1,13 +1,10 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
-import java.time.LocalDateTime;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Setter
@@ -16,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Point {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Double x;
@@ -27,10 +24,9 @@ public class Point {
     private Boolean isValid;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "execution_time")
-    private LocalDateTime executionTime;
-
+    // Constructors, getters, and setters
 }

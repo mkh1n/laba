@@ -1,4 +1,4 @@
-package com.example.demo.JWT;
+package com.example.demo.utils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

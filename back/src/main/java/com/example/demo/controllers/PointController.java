@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.PointRequestDTO;
 import com.example.demo.models.Point;
 import com.example.demo.models.User;
 import com.example.demo.services.PointService;
@@ -32,8 +33,8 @@ public class PointController {
     }
 
     @PostMapping("/check")
-    public boolean checkCoordinates(@RequestBody Point point) {
-        return pointService.checkCoordinates(point);
+    public boolean checkCoordinates(@RequestBody PointRequestDTO pointDTO) {
+        return pointService.validatePoint(pointDTO);
     }
 
     @PostMapping("/clear")
