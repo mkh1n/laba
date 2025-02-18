@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
@@ -20,6 +22,23 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getUsers() {
+        try {
+            List<UserResponseDTO> users= userService.getUsers().stream().map(u -> {
+                var userDTO = new UserResponseDTO();
+                userDTO.setId(u.getId());
+                userDTO.setUsername(u.getUsername());
+                return userDTO;
+            }).toList();
+
+
+            return ResponseEntity.ok(users);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {

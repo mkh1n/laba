@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.PointRequestDTO;
+import com.example.demo.dto.PointResponseDTO;
 import com.example.demo.models.Point;
 import com.example.demo.models.User;
 import com.example.demo.services.PointService;
@@ -22,18 +23,13 @@ public class PointController {
         return pointService.savePoint(point);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<Point> getPointsByUser(@PathVariable Long userId) {
-        return pointService.getPointsByUserId(userId);
-    }
-
     @GetMapping("/")
-    public List<Point> getAllPoints() {
+    public List<PointResponseDTO> getAllPoints() {
         return pointService.getAllPoints();
     }
 
     @PostMapping("/check")
-    public boolean checkCoordinates(@RequestBody PointRequestDTO pointDTO) {
+    public PointResponseDTO checkCoordinates(@RequestBody PointRequestDTO pointDTO) {
         return pointService.validatePoint(pointDTO);
     }
 

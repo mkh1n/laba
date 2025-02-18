@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  back:
+  backend:
     build: ./back
     ports:
       - "8080:8080"
@@ -11,8 +11,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: demo_pass
     depends_on:
       - db
+    restart: on-failure
 
-  front:
+  frontend:
     build: ./front
     ports:
       - "3000:3000"
@@ -23,7 +24,5 @@ services:
       POSTGRES_USER: demo_user
       POSTGRES_PASSWORD: demo_pass
       POSTGRES_DB: demo_lab
-    volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"

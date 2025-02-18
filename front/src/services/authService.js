@@ -6,6 +6,7 @@ const signin = async (userData) => {
   try {
     console.log('Attempting to login:', userData);
     const response = await AXIOS.post(`${API_URL}/login`, userData);
+    
 
     console.log('Login response:', response.data);
 
@@ -45,7 +46,7 @@ const register = async (userData) => {
 
 const authService = {
   signin,
-  register
+  register,
 };
 
 export default authService;

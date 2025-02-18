@@ -40,9 +40,8 @@ const MainPage = () => {
 
     const onSubmit = async () => {
         const y = currentY.replace(/,/g, '.').replace(/^\+/, '');
-        const newPoint = { x: parseFloat(currentX), y, r: parseFloat(currentR), userId: +userId };
+        const newPoint = { x: parseFloat(currentX), y: parseFloat(y), r: parseFloat(currentR), userId: +userId };
         const response = await PointService.checkPoint(newPoint);
-
         setResults((prevResults) => [response, ...prevResults]);
     };
 
@@ -77,14 +76,13 @@ const MainPage = () => {
     const handleClickChart = async (coordinate) => {
         const newPoint = { ...coordinate, r: parseFloat(currentR), userId: +userId };
         const response = await PointService.checkPoint(newPoint);
-
         setResults((prevResults) => [response, ...prevResults]);
     };
 
     const handleClearTable = async () => {
         try {
             await PointService.clearResults();
-            setResults([]);
+            await fetchResults();
         } catch (error) {
             console.error("Error clearing results:", error);
         }
@@ -216,20 +214,25 @@ const MainPage = () => {
                                 <th>X</th>
                                 <th>Y</th>
                                 <th>R</th>
+                                <th>Username</th>
                                 <th>Result</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {results.map((result) => (
-                                <tr key={result.id}>
-                                    <td>{result.x.toString().replace('.', ',')}</td>
-                                    <td>{result.y.toString().replace('.', ',')}</td>
-                                    <td>{result.r.toString().replace('.', ',')}</td>
-                                    <td style={{ color: result.isValid ? "green" : "red" }}>
-                                        {result.isValid ? "hit" : "miss"}
-                                    </td>
-                                </tr>
-                            ))}
+                            {results.map((result) => {
+                                console.log(result)
+                                return (
+                                    <tr key={result.id}>
+                                        <td>{result.x.toString().replace('.', ',')}</td>
+                                        <td>{result.y.toString().replace('.', ',')}</td>
+                                        <td>{result.r.toString().replace('.', ',')}</td>
+                                        <td>{result.username}</td>
+                                        <td style={{ color: result.isValid ? "green" : "red" }}>
+                                            {result.isValid ? "hit" : "miss"}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 )}
