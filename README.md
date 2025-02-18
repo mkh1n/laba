@@ -52,9 +52,9 @@
 
 3. **Сборка и запуск проекта**:
    - Если на вашей машине работает postgresql сервер - отключите его, чтобы освободить порт для Docker. Сделать это можно с помощью команды: 
-```bash
- systemctl stop postgresql
-```
+   ```bash
+    systemctl stop postgresql
+   ```
    - Выполните команду:
      ```bash
      docker-compose up --build
